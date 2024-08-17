@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Spring Boot Application</title>
+</head>
+<body>
+    <h1>Hello, <span th:text="${name}">World</span>!</h1>
+    <p th:text="${message}">This is a example of thymeleaf template</p>
+    <h2>This is a application made by rohan</h2>
+
+    <h2>Colors</h2>
+    <ul>
+        <li th:each="color : ${colors}" th:text="${color}"></li>
+    </ul>
+
+    <h2>Numbers</h2>
+    <ul>
+        <li th:each="number : ${numbers}" th:text="${number}"></li>
+    </ul>
+
+
+    <p th:if="${name == 'Rohan Thapa'}">Welcome back, Rohan!</p>
+    <p th:unless="${name == 'Rohan Thapa'}">Hello, Guest!</p>
+
+</body>
+</html>
