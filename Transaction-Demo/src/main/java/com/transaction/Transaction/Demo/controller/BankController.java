@@ -4,6 +4,8 @@ import com.transaction.Transaction.Demo.DTO.CreateAccount;
 import com.transaction.Transaction.Demo.DTO.TransferRequestDTO;
 import com.transaction.Transaction.Demo.model.Account;
 import com.transaction.Transaction.Demo.services.BankService;
+import com.transaction.Transaction.Demo.services.SendMailService;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,7 @@ public class BankController {
     }
 
     @PostMapping("/account")
-    public ResponseEntity<Account> createAccount(@RequestBody CreateAccount createAccount){
+    public ResponseEntity<Account> createAccount(@RequestBody CreateAccount createAccount) throws MessagingException {
 
         Account acc = bankService.createAccount(createAccount);
         return new ResponseEntity<>(acc, HttpStatus.OK);

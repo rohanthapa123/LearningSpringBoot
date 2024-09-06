@@ -7,4 +7,5 @@ public class CreateAccount {
 
     private String name;
     private double amount;
+    private String email;
 }
