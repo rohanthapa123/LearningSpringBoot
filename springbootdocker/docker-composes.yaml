@@ -1,0 +1,70 @@
+version: '3.8'    # Specifies the version of the Docker Compose file format
+
+services:
+  app:
+    image: springbootapp    # Build from Dockerfile or pull from Docker Hub
+    build: ./app            # Build the Docker image from the local directory
+    container_name: springboot-container
+    ports:
+      - "8080:8080"         # Map host port 8080 to container port 8080
+    depends_on:
+      - db                  # Ensures the 'db' service is started first
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mydb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+
+  db:
+    image: mysql:8.0        # Use official MySQL image
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # Root password for MySQL
+      MYSQL_DATABASE: mydb           # Create a database 'mydb'
+    ports:
+      - "3306:3306"         # Map MySQL port to host
+    volumes:
+      - db-data:/var/lib/mysql   # Persist MySQL data between restarts
+
+volumes:
+  db-data:                # Named volume to persist database data
+
+
+
+version: "3.8"
+
+services:
+  db:
+    image: mysql
+    container_name: mysql_db_container
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rohan123
+      MYSQL_DATABASE: mysqlbookdb
+    volumes:
+      - db-data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL" , "mysqladmin ping -h localhost -uroot -prohan123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    build: .
+    container_name: springbootimage
+    environment:
+      MYSQL_HOST : db
+      MYSQL_PORT : 3306
+      MYSQL_USERNAME : root
+      MYSQL_PASSWORD: rohan123
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db-data:
